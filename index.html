@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Advanced R" />
+<meta property="og:type" content="book" />
+<meta property="og:url" content="https://adv-r.hadley.nz/" />
+<meta property="og:image" content="https://adv-r.hadley.nz/cover.png" />
+<meta property="og:description" content="The book is designed primarily for R users who want to improve their programming skills and understanding of the language. It should also be useful for programmers coming to R from other languages, as help you to understand why R works the way it does." />
+<meta name="github-repo" content="hadley/adv-r" />
+
+<meta name="author" content="Hadley Wickham" />
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+
+<meta name="description" content="The book is designed primarily for R users who want to improve their programming skills and understanding of the language. It should also be useful for programmers coming to R from other languages, as help you to understand why R works the way it does.">
+
+<title>Advanced R</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#welcome">Welcome</a><ul>
+<li><a href="license.html#license">License</a></li>
+<li><a href="other-books.html#other-books">Other books</a></li>
+</ul></li>
+<li><a href="preface.html#preface">Preface</a></li>
+<li class="has-sub"><a href="1-introduction.html#introduction"><span class="toc-section-number">1</span> Introduction</a><ul>
+<li><a href="1-1-why-r.html#why-r"><span class="toc-section-number">1.1</span> Why R?</a></li>
+<li><a href="1-2-who-should-read.html#who-should-read"><span class="toc-section-number">1.2</span> Who should read this book</a></li>
+<li><a href="1-3-what-you-will-get.html#what-you-will-get"><span class="toc-section-number">1.3</span> What you will get out of this book</a></li>
+<li><a href="1-4-what-you-will-not-learn.html#what-you-will-not-learn"><span class="toc-section-number">1.4</span> What you will not learn</a></li>
+<li><a href="1-5-meta-techniques.html#meta-techniques"><span class="toc-section-number">1.5</span> Meta-techniques</a></li>
+<li><a href="1-6-recommended-reading.html#recommended-reading"><span class="toc-section-number">1.6</span> Recommended reading</a></li>
+<li><a href="1-7-getting-help.html#getting-help"><span class="toc-section-number">1.7</span> Getting help</a></li>
+<li><a href="1-8-intro-ack.html#intro-ack"><span class="toc-section-number">1.8</span> Acknowledgments</a></li>
+<li><a href="1-9-conventions.html#conventions"><span class="toc-section-number">1.9</span> Conventions</a></li>
+<li><a href="1-10-colophon.html#colophon"><span class="toc-section-number">1.10</span> Colophon</a></li>
+</ul></li>
+<li class="part"><span><b>I Foundations</b></span></li>
+<li><a href="foundations-intro.html#foundations-intro">Introduction</a></li>
+<li class="has-sub"><a href="2-names-values.html#names-values"><span class="toc-section-number">2</span> Names and values</a><ul>
+<li class="has-sub"><a href="2-1-introduction-1.html#introduction-1"><span class="toc-section-number">2.1</span> Introduction</a><ul>
+<li><a href="2-1-introduction-1.html#quiz">Quiz</a></li>
+<li><a href="2-1-introduction-1.html#outline">Outline</a></li>
+<li><a href="2-1-introduction-1.html#prerequisites">Prerequisites</a></li>
+<li><a href="2-1-introduction-1.html#sources">Sources</a></li>
+</ul></li>
+<li class="has-sub"><a href="2-2-binding-basics.html#binding-basics"><span class="toc-section-number">2.2</span> Binding basics</a><ul>
+<li><a href="2-2-binding-basics.html#non-syntactic"><span class="toc-section-number">2.2.1</span> Non-syntactic names</a></li>
+<li><a href="2-2-binding-basics.html#exercises"><span class="toc-section-number">2.2.2</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="2-3-copy-on-modify.html#copy-on-modify"><span class="toc-section-number">2.3</span> Copy-on-modify</a><ul>
+<li><a href="2-3-copy-on-modify.html#tracemem"><span class="toc-section-number">2.3.1</span> <code>tracemem()</code></a></li>
+<li><a href="2-3-copy-on-modify.html#function-calls"><span class="toc-section-number">2.3.2</span> Function calls</a></li>
+<li><a href="2-3-copy-on-modify.html#list-references"><span class="toc-section-number">2.3.3</span> Lists</a></li>
+<li><a href="2-3-copy-on-modify.html#df-modify"><span class="toc-section-number">2.3.4</span> Data frames</a></li>
+<li><a href="2-3-copy-on-modify.html#character-vectors"><span class="toc-section-number">2.3.5</span> Character vectors</a></li>
+<li><a href="2-3-copy-on-modify.html#exercises-1"><span class="toc-section-number">2.3.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="2-4-object-size.html#object-size"><span class="toc-section-number">2.4</span> Object size</a><ul>
+<li><a href="2-4-object-size.html#exercises-2"><span class="toc-section-number">2.4.1</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="2-5-modify-in-place.html#modify-in-place"><span class="toc-section-number">2.5</span> Modify-in-place</a><ul>
+<li><a href="2-5-modify-in-place.html#single-binding"><span class="toc-section-number">2.5.1</span> Objects with a single binding</a></li>
+<li><a href="2-5-modify-in-place.html#env-modify"><span class="toc-section-number">2.5.2</span> Environments</a></li>
+<li><a href="2-5-modify-in-place.html#exercises-3"><span class="toc-section-number">2.5.3</span> Exercises</a></li>
+</ul></li>
+<li><a href="2-6-gc.html#gc"><span class="toc-section-number">2.6</span> Unbinding and the garbage collector</a></li>
+<li><a href="2-7-names-values-answers.html#names-values-answers"><span class="toc-section-number">2.7</span> Quiz answers</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-vectors-chap.html#vectors-chap"><span class="toc-section-number">3</span> Vectors</a><ul>
+<li class="has-sub"><a href="3-1-introduction-2.html#introduction-2"><span class="toc-section-number">3.1</span> Introduction</a><ul>
+<li><a href="3-1-introduction-2.html#quiz-1">Quiz</a></li>
+<li><a href="3-1-introduction-2.html#outline-1">Outline</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-2-atomic-vectors.html#atomic-vectors"><span class="toc-section-number">3.2</span> Atomic vectors</a><ul>
+<li><a href="3-2-atomic-vectors.html#scalars"><span class="toc-section-number">3.2.1</span> Scalars</a></li>
+<li><a href="3-2-atomic-vectors.html#atomic-constructing"><span class="toc-section-number">3.2.2</span> Making longer vectors with <code>c()</code></a></li>
+<li><a href="3-2-atomic-vectors.html#missing-values"><span class="toc-section-number">3.2.3</span> Missing values</a></li>
+<li><a href="3-2-atomic-vectors.html#testing-and-coercion"><span class="toc-section-number">3.2.4</span> Testing and coercion</a></li>
+<li><a href="3-2-atomic-vectors.html#exercises-4"><span class="toc-section-number">3.2.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-3-attributes.html#attributes"><span class="toc-section-number">3.3</span> Attributes</a><ul>
+<li><a href="3-3-attributes.html#getting-and-setting"><span class="toc-section-number">3.3.1</span> Getting and setting</a></li>
+<li><a href="3-3-attributes.html#attr-names"><span class="toc-section-number">3.3.2</span> Names</a></li>
+<li><a href="3-3-attributes.html#attr-dims"><span class="toc-section-number">3.3.3</span> Dimensions</a></li>
+<li><a href="3-3-attributes.html#exercises-5"><span class="toc-section-number">3.3.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-4-s3-atomic-vectors.html#s3-atomic-vectors"><span class="toc-section-number">3.4</span> S3 atomic vectors</a><ul>
+<li><a href="3-4-s3-atomic-vectors.html#factors"><span class="toc-section-number">3.4.1</span> Factors</a></li>
+<li><a href="3-4-s3-atomic-vectors.html#dates"><span class="toc-section-number">3.4.2</span> Dates</a></li>
+<li><a href="3-4-s3-atomic-vectors.html#date-times"><span class="toc-section-number">3.4.3</span> Date-times</a></li>
+<li><a href="3-4-s3-atomic-vectors.html#durations"><span class="toc-section-number">3.4.4</span> Durations</a></li>
+<li><a href="3-4-s3-atomic-vectors.html#exercises-6"><span class="toc-section-number">3.4.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-5-lists.html#lists"><span class="toc-section-number">3.5</span> Lists</a><ul>
+<li><a href="3-5-lists.html#list-creating"><span class="toc-section-number">3.5.1</span> Creating</a></li>
+<li><a href="3-5-lists.html#list-types"><span class="toc-section-number">3.5.2</span> Testing and coercion</a></li>
+<li><a href="3-5-lists.html#list-array"><span class="toc-section-number">3.5.3</span> Matrices and arrays</a></li>
+<li><a href="3-5-lists.html#exercises-7"><span class="toc-section-number">3.5.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-6-tibble.html#tibble"><span class="toc-section-number">3.6</span> Data frames and tibbles</a><ul>
+<li><a href="3-6-tibble.html#df-create"><span class="toc-section-number">3.6.1</span> Creating</a></li>
+<li><a href="3-6-tibble.html#rownames"><span class="toc-section-number">3.6.2</span> Row names</a></li>
+<li><a href="3-6-tibble.html#printing"><span class="toc-section-number">3.6.3</span> Printing</a></li>
+<li><a href="3-6-tibble.html#safe-subsetting"><span class="toc-section-number">3.6.4</span> Subsetting</a></li>
+<li><a href="3-6-tibble.html#df-test-coerce"><span class="toc-section-number">3.6.5</span> Testing and coercing</a></li>
+<li><a href="3-6-tibble.html#list-columns"><span class="toc-section-number">3.6.6</span> List columns</a></li>
+<li><a href="3-6-tibble.html#matrix-and-data-frame-columns"><span class="toc-section-number">3.6.7</span> Matrix and data frame columns</a></li>
+<li><a href="3-6-tibble.html#exercises-8"><span class="toc-section-number">3.6.8</span> Exercises</a></li>
+</ul></li>
+<li><a href="3-7-null.html#null"><span class="toc-section-number">3.7</span> <code>NULL</code></a></li>
+<li><a href="3-8-data-structure-answers.html#data-structure-answers"><span class="toc-section-number">3.8</span> Quiz answers</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-subsetting.html#subsetting"><span class="toc-section-number">4</span> Subsetting</a><ul>
+<li class="has-sub"><a href="4-1-introduction-3.html#introduction-3"><span class="toc-section-number">4.1</span> Introduction</a><ul>
+<li><a href="4-1-introduction-3.html#quiz-2">Quiz</a></li>
+<li><a href="4-1-introduction-3.html#outline-2">Outline</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-2-subset-multiple.html#subset-multiple"><span class="toc-section-number">4.2</span> Selecting multiple elements</a><ul>
+<li><a href="4-2-subset-multiple.html#atomic-vectors-1"><span class="toc-section-number">4.2.1</span> Atomic vectors</a></li>
+<li><a href="4-2-subset-multiple.html#lists-1"><span class="toc-section-number">4.2.2</span> Lists</a></li>
+<li><a href="4-2-subset-multiple.html#matrix-subsetting"><span class="toc-section-number">4.2.3</span> Matrices and arrays</a></li>
+<li><a href="4-2-subset-multiple.html#df-subsetting"><span class="toc-section-number">4.2.4</span> Data frames and tibbles</a></li>
+<li><a href="4-2-subset-multiple.html#simplify-preserve"><span class="toc-section-number">4.2.5</span> Preserving dimensionality</a></li>
+<li><a href="4-2-subset-multiple.html#exercises-9"><span class="toc-section-number">4.2.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-3-subset-single.html#subset-single"><span class="toc-section-number">4.3</span> Selecting a single element</a><ul>
+<li><a href="4-3-subset-single.html#section"><span class="toc-section-number">4.3.1</span> <code>[[</code></a></li>
+<li><a href="4-3-subset-single.html#section-1"><span class="toc-section-number">4.3.2</span> <code>$</code></a></li>
+<li><a href="4-3-subset-single.html#subsetting-oob"><span class="toc-section-number">4.3.3</span> Missing and out-of-bounds indices</a></li>
+<li><a href="4-3-subset-single.html#and-slot"><span class="toc-section-number">4.3.4</span> <code>@</code> and <code>slot()</code></a></li>
+<li><a href="4-3-subset-single.html#exercises-10"><span class="toc-section-number">4.3.5</span> Exercises</a></li>
+</ul></li>
+<li><a href="4-4-subassignment.html#subassignment"><span class="toc-section-number">4.4</span> Subsetting and assignment</a></li>
+<li class="has-sub"><a href="4-5-applications.html#applications"><span class="toc-section-number">4.5</span> Applications</a><ul>
+<li><a href="4-5-applications.html#lookup-tables"><span class="toc-section-number">4.5.1</span> Lookup tables (character subsetting)</a></li>
+<li><a href="4-5-applications.html#matching-merging"><span class="toc-section-number">4.5.2</span> Matching and merging by hand (integer subsetting)</a></li>
+<li><a href="4-5-applications.html#random-samples-and-bootstraps-integer-subsetting"><span class="toc-section-number">4.5.3</span> Random samples and bootstraps (integer subsetting)</a></li>
+<li><a href="4-5-applications.html#ordering-integer-subsetting"><span class="toc-section-number">4.5.4</span> Ordering (integer subsetting)</a></li>
+<li><a href="4-5-applications.html#expanding-aggregated-counts-integer-subsetting"><span class="toc-section-number">4.5.5</span> Expanding aggregated counts (integer subsetting)</a></li>
+<li><a href="4-5-applications.html#removing-columns-from-data-frames-character"><span class="toc-section-number">4.5.6</span> Removing columns from data frames (character )</a></li>
+<li><a href="4-5-applications.html#selecting-rows-based-on-a-condition-logical-subsetting"><span class="toc-section-number">4.5.7</span> Selecting rows based on a condition (logical subsetting)</a></li>
+<li><a href="4-5-applications.html#boolean-algebra-versus-sets-logical-and-integer"><span class="toc-section-number">4.5.8</span> Boolean algebra versus sets (logical and integer )</a></li>
+<li><a href="4-5-applications.html#exercises-11"><span class="toc-section-number">4.5.9</span> Exercises</a></li>
+</ul></li>
+<li><a href="4-6-subsetting-answers.html#subsetting-answers"><span class="toc-section-number">4.6</span> Quiz answers</a></li>
+</ul></li>
+<li class="has-sub"><a href="5-control-flow.html#control-flow"><span class="toc-section-number">5</span> Control flow</a><ul>
+<li class="has-sub"><a href="5-1-introduction-4.html#introduction-4"><span class="toc-section-number">5.1</span> Introduction</a><ul>
+<li><a href="5-1-introduction-4.html#quiz-3">Quiz</a></li>
+<li><a href="5-1-introduction-4.html#outline-3">Outline</a></li>
+</ul></li>
+<li class="has-sub"><a href="5-2-choices.html#choices"><span class="toc-section-number">5.2</span> Choices</a><ul>
+<li><a href="5-2-choices.html#invalid-inputs"><span class="toc-section-number">5.2.1</span> Invalid inputs</a></li>
+<li><a href="5-2-choices.html#vectorised-if"><span class="toc-section-number">5.2.2</span> Vectorised if</a></li>
+<li><a href="5-2-choices.html#switch"><span class="toc-section-number">5.2.3</span> <code>switch()</code> statement</a></li>
+<li><a href="5-2-choices.html#exercises-12"><span class="toc-section-number">5.2.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="5-3-loops.html#loops"><span class="toc-section-number">5.3</span> Loops</a><ul>
+<li><a href="5-3-loops.html#common-pitfalls"><span class="toc-section-number">5.3.1</span> Common pitfalls</a></li>
+<li><a href="5-3-loops.html#for-family"><span class="toc-section-number">5.3.2</span> Related tools</a></li>
+<li><a href="5-3-loops.html#exercises-13"><span class="toc-section-number">5.3.3</span> Exercises</a></li>
+</ul></li>
+<li><a href="5-4-control-flow-answers.html#control-flow-answers"><span class="toc-section-number">5.4</span> Quiz answers</a></li>
+</ul></li>
+<li class="has-sub"><a href="6-functions.html#functions"><span class="toc-section-number">6</span> Functions</a><ul>
+<li class="has-sub"><a href="6-1-introduction-5.html#introduction-5"><span class="toc-section-number">6.1</span> Introduction</a><ul>
+<li><a href="6-1-introduction-5.html#quiz-4">Quiz</a></li>
+<li><a href="6-1-introduction-5.html#outline-4">Outline</a></li>
+</ul></li>
+<li class="has-sub"><a href="6-2-function-fundamentals.html#function-fundamentals"><span class="toc-section-number">6.2</span> Function fundamentals</a><ul>
+<li><a href="6-2-function-fundamentals.html#fun-components"><span class="toc-section-number">6.2.1</span> Function components</a></li>
+<li><a href="6-2-function-fundamentals.html#primitive-functions"><span class="toc-section-number">6.2.2</span> Primitive functions</a></li>
+<li><a href="6-2-function-fundamentals.html#first-class-functions"><span class="toc-section-number">6.2.3</span> First-class functions</a></li>
+<li><a href="6-2-function-fundamentals.html#invoking-a-function"><span class="toc-section-number">6.2.4</span> Invoking a function</a></li>
+<li><a href="6-2-function-fundamentals.html#exercises-14"><span class="toc-section-number">6.2.5</span> Exercises</a></li>
+</ul></li>
+<li><a href="6-3-function-composition.html#function-composition"><span class="toc-section-number">6.3</span> Function composition</a></li>
+<li class="has-sub"><a href="6-4-lexical-scoping.html#lexical-scoping"><span class="toc-section-number">6.4</span> Lexical scoping</a><ul>
+<li><a href="6-4-lexical-scoping.html#name-masking"><span class="toc-section-number">6.4.1</span> Name masking</a></li>
+<li><a href="6-4-lexical-scoping.html#functions-versus-variables"><span class="toc-section-number">6.4.2</span> Functions versus variables</a></li>
+<li><a href="6-4-lexical-scoping.html#fresh-start"><span class="toc-section-number">6.4.3</span> A fresh start</a></li>
+<li><a href="6-4-lexical-scoping.html#dynamic-lookup"><span class="toc-section-number">6.4.4</span> Dynamic lookup</a></li>
+<li><a href="6-4-lexical-scoping.html#exercises-15"><span class="toc-section-number">6.4.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="6-5-lazy-evaluation.html#lazy-evaluation"><span class="toc-section-number">6.5</span> Lazy evaluation</a><ul>
+<li><a href="6-5-lazy-evaluation.html#promises"><span class="toc-section-number">6.5.1</span> Promises</a></li>
+<li><a href="6-5-lazy-evaluation.html#default-arguments"><span class="toc-section-number">6.5.2</span> Default arguments</a></li>
+<li><a href="6-5-lazy-evaluation.html#missing-arguments"><span class="toc-section-number">6.5.3</span> Missing arguments</a></li>
+<li><a href="6-5-lazy-evaluation.html#exercises-16"><span class="toc-section-number">6.5.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="6-6-fun-dot-dot-dot.html#fun-dot-dot-dot"><span class="toc-section-number">6.6</span> <code>...</code> (dot-dot-dot)</a><ul>
+<li><a href="6-6-fun-dot-dot-dot.html#exercises-17"><span class="toc-section-number">6.6.1</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="6-7-exiting-a-function.html#exiting-a-function"><span class="toc-section-number">6.7</span> Exiting a function</a><ul>
+<li><a href="6-7-exiting-a-function.html#implicit-versus-explicit-returns"><span class="toc-section-number">6.7.1</span> Implicit versus explicit returns</a></li>
+<li><a href="6-7-exiting-a-function.html#invisible"><span class="toc-section-number">6.7.2</span> Invisible values</a></li>
+<li><a href="6-7-exiting-a-function.html#errors"><span class="toc-section-number">6.7.3</span> Errors</a></li>
+<li><a href="6-7-exiting-a-function.html#on-exit"><span class="toc-section-number">6.7.4</span> Exit handlers</a></li>
+<li><a href="6-7-exiting-a-function.html#exercises-18"><span class="toc-section-number">6.7.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="6-8-function-forms.html#function-forms"><span class="toc-section-number">6.8</span> Function forms</a><ul>
+<li><a href="6-8-function-forms.html#prefix-transform"><span class="toc-section-number">6.8.1</span> Rewriting to prefix form</a></li>
+<li><a href="6-8-function-forms.html#prefix-form"><span class="toc-section-number">6.8.2</span> Prefix form</a></li>
+<li><a href="6-8-function-forms.html#infix-functions"><span class="toc-section-number">6.8.3</span> Infix functions</a></li>
+<li><a href="6-8-function-forms.html#replacement-functions"><span class="toc-section-number">6.8.4</span> Replacement functions</a></li>
+<li><a href="6-8-function-forms.html#special-forms"><span class="toc-section-number">6.8.5</span> Special forms</a></li>
+<li><a href="6-8-function-forms.html#exercises-19"><span class="toc-section-number">6.8.6</span> Exercises</a></li>
+</ul></li>
+<li><a href="6-9-function-answers.html#function-answers"><span class="toc-section-number">6.9</span> Quiz answers</a></li>
+</ul></li>
+<li class="has-sub"><a href="7-environments.html#environments"><span class="toc-section-number">7</span> Environments</a><ul>
+<li class="has-sub"><a href="7-1-introduction-6.html#introduction-6"><span class="toc-section-number">7.1</span> Introduction</a><ul>
+<li><a href="7-1-introduction-6.html#quiz-5">Quiz</a></li>
+<li><a href="7-1-introduction-6.html#outline-5">Outline</a></li>
+<li><a href="7-1-introduction-6.html#prerequisites-1">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="7-2-env-basics.html#env-basics"><span class="toc-section-number">7.2</span> Environment basics</a><ul>
+<li><a href="7-2-env-basics.html#basics"><span class="toc-section-number">7.2.1</span> Basics</a></li>
+<li><a href="7-2-env-basics.html#important-environments"><span class="toc-section-number">7.2.2</span> Important environments</a></li>
+<li><a href="7-2-env-basics.html#parents"><span class="toc-section-number">7.2.3</span> Parents</a></li>
+<li><a href="7-2-env-basics.html#super-assignment--"><span class="toc-section-number">7.2.4</span> Super assignment, <code>&lt;&lt;-</code></a></li>
+<li><a href="7-2-env-basics.html#getting-and-setting-1"><span class="toc-section-number">7.2.5</span> Getting and setting</a></li>
+<li><a href="7-2-env-basics.html#advanced-bindings"><span class="toc-section-number">7.2.6</span> Advanced bindings</a></li>
+<li><a href="7-2-env-basics.html#exercises-20"><span class="toc-section-number">7.2.7</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="7-3-env-recursion.html#env-recursion"><span class="toc-section-number">7.3</span> Recursing over environments</a><ul>
+<li><a href="7-3-env-recursion.html#exercises-21"><span class="toc-section-number">7.3.1</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="7-4-special-environments.html#special-environments"><span class="toc-section-number">7.4</span> Special environments</a><ul>
+<li><a href="7-4-special-environments.html#search-path"><span class="toc-section-number">7.4.1</span> Package environments and the search path</a></li>
+<li><a href="7-4-special-environments.html#function-environments"><span class="toc-section-number">7.4.2</span> The function environment</a></li>
+<li><a href="7-4-special-environments.html#namespaces"><span class="toc-section-number">7.4.3</span> Namespaces</a></li>
+<li><a href="7-4-special-environments.html#execution-environments"><span class="toc-section-number">7.4.4</span> Execution environments</a></li>
+<li><a href="7-4-special-environments.html#exercises-22"><span class="toc-section-number">7.4.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="7-5-call-stack.html#call-stack"><span class="toc-section-number">7.5</span> Call stacks</a><ul>
+<li><a href="7-5-call-stack.html#simple-stack"><span class="toc-section-number">7.5.1</span> Simple call stacks</a></li>
+<li><a href="7-5-call-stack.html#lazy-call-stack"><span class="toc-section-number">7.5.2</span> Lazy evaluation</a></li>
+<li><a href="7-5-call-stack.html#frames"><span class="toc-section-number">7.5.3</span> Frames</a></li>
+<li><a href="7-5-call-stack.html#dynamic-scope"><span class="toc-section-number">7.5.4</span> Dynamic scope</a></li>
+<li><a href="7-5-call-stack.html#exercises-23"><span class="toc-section-number">7.5.5</span> Exercises</a></li>
+</ul></li>
+<li><a href="7-6-explicit-envs.html#explicit-envs"><span class="toc-section-number">7.6</span> As data structures</a></li>
+<li><a href="7-7-env-answers.html#env-answers"><span class="toc-section-number">7.7</span> Quiz answers</a></li>
+</ul></li>
+<li class="has-sub"><a href="8-conditions.html#conditions"><span class="toc-section-number">8</span> Conditions</a><ul>
+<li class="has-sub"><a href="8-1-introduction-7.html#introduction-7"><span class="toc-section-number">8.1</span> Introduction</a><ul>
+<li><a href="8-1-introduction-7.html#quiz-6">Quiz</a></li>
+<li><a href="8-1-introduction-7.html#outline-6">Outline</a></li>
+<li><a href="8-1-introduction-7.html#prerequisites-2"><span class="toc-section-number">8.1.1</span> Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="8-2-signalling-conditions.html#signalling-conditions"><span class="toc-section-number">8.2</span> Signalling conditions</a><ul>
+<li><a href="8-2-signalling-conditions.html#errors-1"><span class="toc-section-number">8.2.1</span> Errors</a></li>
+<li><a href="8-2-signalling-conditions.html#warnings"><span class="toc-section-number">8.2.2</span> Warnings</a></li>
+<li><a href="8-2-signalling-conditions.html#messages"><span class="toc-section-number">8.2.3</span> Messages</a></li>
+<li><a href="8-2-signalling-conditions.html#exercises-24"><span class="toc-section-number">8.2.4</span> Exercises</a></li>
+</ul></li>
+<li><a href="8-3-ignoring-conditions.html#ignoring-conditions"><span class="toc-section-number">8.3</span> Ignoring conditions</a></li>
+<li class="has-sub"><a href="8-4-handling-conditions.html#handling-conditions"><span class="toc-section-number">8.4</span> Handling conditions</a><ul>
+<li><a href="8-4-handling-conditions.html#condition-objects"><span class="toc-section-number">8.4.1</span> Condition objects</a></li>
+<li><a href="8-4-handling-conditions.html#exiting-handlers"><span class="toc-section-number">8.4.2</span> Exiting handlers</a></li>
+<li><a href="8-4-handling-conditions.html#calling-handlers"><span class="toc-section-number">8.4.3</span> Calling handlers</a></li>
+<li><a href="8-4-handling-conditions.html#call-stacks"><span class="toc-section-number">8.4.4</span> Call stacks</a></li>
+<li><a href="8-4-handling-conditions.html#exercises-25"><span class="toc-section-number">8.4.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="8-5-custom-conditions.html#custom-conditions"><span class="toc-section-number">8.5</span> Custom conditions</a><ul>
+<li><a href="8-5-custom-conditions.html#motivation"><span class="toc-section-number">8.5.1</span> Motivation</a></li>
+<li><a href="8-5-custom-conditions.html#signalling"><span class="toc-section-number">8.5.2</span> Signalling</a></li>
+<li><a href="8-5-custom-conditions.html#handling"><span class="toc-section-number">8.5.3</span> Handling</a></li>
+<li><a href="8-5-custom-conditions.html#exercises-26"><span class="toc-section-number">8.5.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="8-6-condition-applications.html#condition-applications"><span class="toc-section-number">8.6</span> Applications</a><ul>
+<li><a href="8-6-condition-applications.html#failure-value"><span class="toc-section-number">8.6.1</span> Failure value</a></li>
+<li><a href="8-6-condition-applications.html#try-success-failure"><span class="toc-section-number">8.6.2</span> Success and failure values</a></li>
+<li><a href="8-6-condition-applications.html#resignal"><span class="toc-section-number">8.6.3</span> Resignal</a></li>
+<li><a href="8-6-condition-applications.html#record"><span class="toc-section-number">8.6.4</span> Record</a></li>
+<li><a href="8-6-condition-applications.html#no-default-behaviour"><span class="toc-section-number">8.6.5</span> No default behaviour</a></li>
+<li><a href="8-6-condition-applications.html#exercises-27"><span class="toc-section-number">8.6.6</span> Exercises</a></li>
+</ul></li>
+<li><a href="8-7-conditions-answers.html#conditions-answers"><span class="toc-section-number">8.7</span> Quiz answers</a></li>
+</ul></li>
+<li class="part"><span><b>II Functional programming</b></span></li>
+<li class="has-sub"><a href="fp.html#fp">Introduction</a><ul>
+<li><a href="functional-programming-languages.html#functional-programming-languages">Functional programming languages</a></li>
+<li><a href="functional-style.html#functional-style">Functional style</a></li>
+</ul></li>
+<li class="has-sub"><a href="9-functionals.html#functionals"><span class="toc-section-number">9</span> Functionals</a><ul>
+<li class="has-sub"><a href="9-1-introduction-8.html#introduction-8"><span class="toc-section-number">9.1</span> Introduction</a><ul>
+<li><a href="9-1-introduction-8.html#outline-7">Outline</a></li>
+<li><a href="9-1-introduction-8.html#prerequisites-3">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="9-2-map.html#map"><span class="toc-section-number">9.2</span> My first functional: <code>map()</code></a><ul>
+<li><a href="9-2-map.html#map-atomic"><span class="toc-section-number">9.2.1</span> Producing atomic vectors</a></li>
+<li><a href="9-2-map.html#purrr-shortcuts"><span class="toc-section-number">9.2.2</span> Anonymous functions and shortcuts</a></li>
+<li><a href="9-2-map.html#passing-arguments"><span class="toc-section-number">9.2.3</span> Passing arguments with <code>...</code></a></li>
+<li><a href="9-2-map.html#argument-names"><span class="toc-section-number">9.2.4</span> Argument names</a></li>
+<li><a href="9-2-map.html#change-argument"><span class="toc-section-number">9.2.5</span> Varying another argument</a></li>
+<li><a href="9-2-map.html#exercises-28"><span class="toc-section-number">9.2.6</span> Exercises</a></li>
+</ul></li>
+<li><a href="9-3-purrr-style.html#purrr-style"><span class="toc-section-number">9.3</span> Purrr style</a></li>
+<li class="has-sub"><a href="9-4-map-variants.html#map-variants"><span class="toc-section-number">9.4</span> Map variants</a><ul>
+<li><a href="9-4-map-variants.html#modify"><span class="toc-section-number">9.4.1</span> Same type of output as input: <code>modify()</code></a></li>
+<li><a href="9-4-map-variants.html#map2"><span class="toc-section-number">9.4.2</span> Two inputs: <code>map2()</code> and friends</a></li>
+<li><a href="9-4-map-variants.html#no-outputs-walk-and-friends"><span class="toc-section-number">9.4.3</span> No outputs: <code>walk()</code> and friends</a></li>
+<li><a href="9-4-map-variants.html#iterating-over-values-and-indices"><span class="toc-section-number">9.4.4</span> Iterating over values and indices</a></li>
+<li><a href="9-4-map-variants.html#pmap"><span class="toc-section-number">9.4.5</span> Any number of inputs: <code>pmap()</code> and friends</a></li>
+<li><a href="9-4-map-variants.html#exercises-29"><span class="toc-section-number">9.4.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="9-5-reduce.html#reduce"><span class="toc-section-number">9.5</span> Reduce family</a><ul>
+<li><a href="9-5-reduce.html#basics-1"><span class="toc-section-number">9.5.1</span> Basics</a></li>
+<li><a href="9-5-reduce.html#accumulate"><span class="toc-section-number">9.5.2</span> Accumulate</a></li>
+<li><a href="9-5-reduce.html#output-types"><span class="toc-section-number">9.5.3</span> Output types</a></li>
+<li><a href="9-5-reduce.html#multiple-inputs"><span class="toc-section-number">9.5.4</span> Multiple inputs</a></li>
+<li><a href="9-5-reduce.html#map-reduce"><span class="toc-section-number">9.5.5</span> Map-reduce</a></li>
+</ul></li>
+<li class="has-sub"><a href="9-6-predicate-functionals.html#predicate-functionals"><span class="toc-section-number">9.6</span> Predicate functionals</a><ul>
+<li><a href="9-6-predicate-functionals.html#basics-2"><span class="toc-section-number">9.6.1</span> Basics</a></li>
+<li><a href="9-6-predicate-functionals.html#predicate-map"><span class="toc-section-number">9.6.2</span> Map variants</a></li>
+<li><a href="9-6-predicate-functionals.html#exercises-30"><span class="toc-section-number">9.6.3</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="9-7-base-functionals.html#base-functionals"><span class="toc-section-number">9.7</span> Base functionals</a><ul>
+<li><a href="9-7-base-functionals.html#matrices-and-arrays"><span class="toc-section-number">9.7.1</span> Matrices and arrays</a></li>
+<li><a href="9-7-base-functionals.html#mathematical-concerns"><span class="toc-section-number">9.7.2</span> Mathematical concerns</a></li>
+<li><a href="9-7-base-functionals.html#exercises-31"><span class="toc-section-number">9.7.3</span> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="10-function-factories.html#function-factories"><span class="toc-section-number">10</span> Function factories</a><ul>
+<li class="has-sub"><a href="10-1-introduction-9.html#introduction-9"><span class="toc-section-number">10.1</span> Introduction</a><ul>
+<li><a href="10-1-introduction-9.html#outline-8">Outline</a></li>
+<li><a href="10-1-introduction-9.html#prerequisites-4">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="10-2-factory-fundamentals.html#factory-fundamentals"><span class="toc-section-number">10.2</span> Factory fundamentals</a><ul>
+<li><a href="10-2-factory-fundamentals.html#environments-1"><span class="toc-section-number">10.2.1</span> Environments</a></li>
+<li><a href="10-2-factory-fundamentals.html#diagram-conventions"><span class="toc-section-number">10.2.2</span> Diagram conventions</a></li>
+<li><a href="10-2-factory-fundamentals.html#forcing-evaluation"><span class="toc-section-number">10.2.3</span> Forcing evaluation</a></li>
+<li><a href="10-2-factory-fundamentals.html#stateful-funs"><span class="toc-section-number">10.2.4</span> Stateful functions</a></li>
+<li><a href="10-2-factory-fundamentals.html#factory-pitfalls"><span class="toc-section-number">10.2.5</span> Garbage collection</a></li>
+<li><a href="10-2-factory-fundamentals.html#exercises-32"><span class="toc-section-number">10.2.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="10-3-graph-fact.html#graph-fact"><span class="toc-section-number">10.3</span> Graphical factories</a><ul>
+<li><a href="10-3-graph-fact.html#labelling"><span class="toc-section-number">10.3.1</span> Labelling</a></li>
+<li><a href="10-3-graph-fact.html#histogram-bins"><span class="toc-section-number">10.3.2</span> Histogram bins</a></li>
+<li><a href="10-3-graph-fact.html#ggsave"><span class="toc-section-number">10.3.3</span> <code>ggsave()</code></a></li>
+<li><a href="10-3-graph-fact.html#exercises-33"><span class="toc-section-number">10.3.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="10-4-stat-fact.html#stat-fact"><span class="toc-section-number">10.4</span> Statistical factories</a><ul>
+<li><a href="10-4-stat-fact.html#box-cox-transformation"><span class="toc-section-number">10.4.1</span> Box-Cox transformation</a></li>
+<li><a href="10-4-stat-fact.html#bootstrap-generators"><span class="toc-section-number">10.4.2</span> Bootstrap generators</a></li>
+<li><a href="10-4-stat-fact.html#MLE"><span class="toc-section-number">10.4.3</span> Maximum likelihood estimation</a></li>
+<li><a href="10-4-stat-fact.html#exercises-34"><span class="toc-section-number">10.4.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="10-5-functional-factories.html#functional-factories"><span class="toc-section-number">10.5</span> Function factories + functionals</a><ul>
+<li><a href="10-5-functional-factories.html#exercises-35"><span class="toc-section-number">10.5.1</span> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="11-function-operators.html#function-operators"><span class="toc-section-number">11</span> Function operators</a><ul>
+<li class="has-sub"><a href="11-1-introduction-10.html#introduction-10"><span class="toc-section-number">11.1</span> Introduction</a><ul>
+<li><a href="11-1-introduction-10.html#outline-9">Outline</a></li>
+<li><a href="11-1-introduction-10.html#prerequisites-5">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="11-2-existing-fos.html#existing-fos"><span class="toc-section-number">11.2</span> Existing function operators</a><ul>
+<li><a href="11-2-existing-fos.html#safely"><span class="toc-section-number">11.2.1</span> Capturing errors with <code>purrr::safely()</code></a></li>
+<li><a href="11-2-existing-fos.html#memoise"><span class="toc-section-number">11.2.2</span> Caching computations with <code>memoise::memoise()</code></a></li>
+<li><a href="11-2-existing-fos.html#exercises-36"><span class="toc-section-number">11.2.3</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="11-3-fo-case-study.html#fo-case-study"><span class="toc-section-number">11.3</span> Case study: Creating your own function operators</a><ul>
+<li><a href="11-3-fo-case-study.html#exercises-37"><span class="toc-section-number">11.3.1</span> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>III Object-oriented programming</b></span></li>
+<li class="has-sub"><a href="oo.html#oo">Introduction</a><ul>
+<li><a href="oop-systems.html#oop-systems">OOP systems</a></li>
+<li><a href="oop-in-r.html#oop-in-r">OOP in R</a></li>
+<li><a href="sloop.html#sloop">sloop</a></li>
+</ul></li>
+<li class="has-sub"><a href="12-base-types.html#base-types"><span class="toc-section-number">12</span> Base types</a><ul>
+<li class="has-sub"><a href="12-1-introduction-11.html#introduction-11"><span class="toc-section-number">12.1</span> Introduction</a><ul>
+<li><a href="12-1-introduction-11.html#outline-10">Outline</a></li>
+</ul></li>
+<li><a href="12-2-base-vs-oo.html#base-vs-oo"><span class="toc-section-number">12.2</span> Base versus OO objects</a></li>
+<li class="has-sub"><a href="12-3-base-types-2.html#base-types-2"><span class="toc-section-number">12.3</span> Base types</a><ul>
+<li><a href="12-3-base-types-2.html#numeric-type"><span class="toc-section-number">12.3.1</span> Numeric type</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="13-s3.html#s3"><span class="toc-section-number">13</span> S3</a><ul>
+<li class="has-sub"><a href="13-1-introduction-12.html#introduction-12"><span class="toc-section-number">13.1</span> Introduction</a><ul>
+<li><a href="13-1-introduction-12.html#outline-11">Outline</a></li>
+<li><a href="13-1-introduction-12.html#prerequisites-6">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="13-2-s3-basics.html#s3-basics"><span class="toc-section-number">13.2</span> Basics</a><ul>
+<li><a href="13-2-s3-basics.html#exercises-38"><span class="toc-section-number">13.2.1</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="13-3-s3-classes.html#s3-classes"><span class="toc-section-number">13.3</span> Classes</a><ul>
+<li><a href="13-3-s3-classes.html#s3-constructor"><span class="toc-section-number">13.3.1</span> Constructors</a></li>
+<li><a href="13-3-s3-classes.html#validators"><span class="toc-section-number">13.3.2</span> Validators</a></li>
+<li><a href="13-3-s3-classes.html#helpers"><span class="toc-section-number">13.3.3</span> Helpers</a></li>
+<li><a href="13-3-s3-classes.html#exercises-39"><span class="toc-section-number">13.3.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="13-4-s3-methods.html#s3-methods"><span class="toc-section-number">13.4</span> Generics and methods</a><ul>
+<li><a href="13-4-s3-methods.html#method-dispatch"><span class="toc-section-number">13.4.1</span> Method dispatch</a></li>
+<li><a href="13-4-s3-methods.html#finding-methods"><span class="toc-section-number">13.4.2</span> Finding methods</a></li>
+<li><a href="13-4-s3-methods.html#s3-arguments"><span class="toc-section-number">13.4.3</span> Creating methods</a></li>
+<li><a href="13-4-s3-methods.html#exercises-40"><span class="toc-section-number">13.4.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="13-5-object-styles.html#object-styles"><span class="toc-section-number">13.5</span> Object styles</a><ul>
+<li><a href="13-5-object-styles.html#exercises-41"><span class="toc-section-number">13.5.1</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="13-6-s3-inheritance.html#s3-inheritance"><span class="toc-section-number">13.6</span> Inheritance</a><ul>
+<li><a href="13-6-s3-inheritance.html#nextmethod"><span class="toc-section-number">13.6.1</span> <code>NextMethod()</code></a></li>
+<li><a href="13-6-s3-inheritance.html#s3-subclassing"><span class="toc-section-number">13.6.2</span> Allowing subclassing</a></li>
+<li><a href="13-6-s3-inheritance.html#exercises-42"><span class="toc-section-number">13.6.3</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="13-7-s3-dispatch.html#s3-dispatch"><span class="toc-section-number">13.7</span> Dispatch details</a><ul>
+<li><a href="13-7-s3-dispatch.html#implicit-class"><span class="toc-section-number">13.7.1</span> S3 and base types</a></li>
+<li><a href="13-7-s3-dispatch.html#internal-generics"><span class="toc-section-number">13.7.2</span> Internal generics</a></li>
+<li><a href="13-7-s3-dispatch.html#group-generics"><span class="toc-section-number">13.7.3</span> Group generics</a></li>
+<li><a href="13-7-s3-dispatch.html#double-dispatch"><span class="toc-section-number">13.7.4</span> Double dispatch</a></li>
+<li><a href="13-7-s3-dispatch.html#exercises-43"><span class="toc-section-number">13.7.5</span> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="14-r6.html#r6"><span class="toc-section-number">14</span> R6</a><ul>
+<li class="has-sub"><a href="14-1-introduction-13.html#introduction-13"><span class="toc-section-number">14.1</span> Introduction</a><ul>
+<li><a href="14-1-introduction-13.html#outline-12">Outline</a></li>
+<li><a href="14-1-introduction-13.html#prerequisites-7">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="14-2-r6-classes.html#r6-classes"><span class="toc-section-number">14.2</span> Classes and methods</a><ul>
+<li><a href="14-2-r6-classes.html#method-chaining"><span class="toc-section-number">14.2.1</span> Method chaining</a></li>
+<li><a href="14-2-r6-classes.html#r6-important-methods"><span class="toc-section-number">14.2.2</span> Important methods</a></li>
+<li><a href="14-2-r6-classes.html#adding-methods-after-creation"><span class="toc-section-number">14.2.3</span> Adding methods after creation</a></li>
+<li><a href="14-2-r6-classes.html#inheritance"><span class="toc-section-number">14.2.4</span> Inheritance</a></li>
+<li><a href="14-2-r6-classes.html#introspection"><span class="toc-section-number">14.2.5</span> Introspection</a></li>
+<li><a href="14-2-r6-classes.html#exercises-44"><span class="toc-section-number">14.2.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="14-3-r6-access.html#r6-access"><span class="toc-section-number">14.3</span> Controlling access</a><ul>
+<li><a href="14-3-r6-access.html#privacy"><span class="toc-section-number">14.3.1</span> Privacy</a></li>
+<li><a href="14-3-r6-access.html#active-fields"><span class="toc-section-number">14.3.2</span> Active fields</a></li>
+<li><a href="14-3-r6-access.html#exercises-45"><span class="toc-section-number">14.3.3</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="14-4-r6-semantics.html#r6-semantics"><span class="toc-section-number">14.4</span> Reference semantics</a><ul>
+<li><a href="14-4-r6-semantics.html#reasoning"><span class="toc-section-number">14.4.1</span> Reasoning</a></li>
+<li><a href="14-4-r6-semantics.html#finalizer"><span class="toc-section-number">14.4.2</span> Finalizer</a></li>
+<li><a href="14-4-r6-semantics.html#r6-fields"><span class="toc-section-number">14.4.3</span> R6 fields</a></li>
+<li><a href="14-4-r6-semantics.html#exercises-46"><span class="toc-section-number">14.4.4</span> Exercises</a></li>
+</ul></li>
+<li><a href="14-5-why-r6.html#why-r6"><span class="toc-section-number">14.5</span> Why R6?</a></li>
+</ul></li>
+<li class="has-sub"><a href="15-s4.html#s4"><span class="toc-section-number">15</span> S4</a><ul>
+<li class="has-sub"><a href="15-1-introduction-14.html#introduction-14"><span class="toc-section-number">15.1</span> Introduction</a><ul>
+<li><a href="15-1-introduction-14.html#outline-13">Outline</a></li>
+<li><a href="15-1-introduction-14.html#learning-more">Learning more</a></li>
+<li><a href="15-1-introduction-14.html#prerequisites-8">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="15-2-s4-basics.html#s4-basics"><span class="toc-section-number">15.2</span> Basics</a><ul>
+<li><a href="15-2-s4-basics.html#exercises-47"><span class="toc-section-number">15.2.1</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="15-3-s4-classes.html#s4-classes"><span class="toc-section-number">15.3</span> Classes</a><ul>
+<li><a href="15-3-s4-classes.html#inheritance-1"><span class="toc-section-number">15.3.1</span> Inheritance</a></li>
+<li><a href="15-3-s4-classes.html#introspection-1"><span class="toc-section-number">15.3.2</span> Introspection</a></li>
+<li><a href="15-3-s4-classes.html#redefinition"><span class="toc-section-number">15.3.3</span> Redefinition</a></li>
+<li><a href="15-3-s4-classes.html#helper"><span class="toc-section-number">15.3.4</span> Helper</a></li>
+<li><a href="15-3-s4-classes.html#validator"><span class="toc-section-number">15.3.5</span> Validator</a></li>
+<li><a href="15-3-s4-classes.html#exercises-48"><span class="toc-section-number">15.3.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="15-4-s4-generics.html#s4-generics"><span class="toc-section-number">15.4</span> Generics and methods</a><ul>
+<li><a href="15-4-s4-generics.html#signature"><span class="toc-section-number">15.4.1</span> Signature</a></li>
+<li><a href="15-4-s4-generics.html#methods"><span class="toc-section-number">15.4.2</span> Methods</a></li>
+<li><a href="15-4-s4-generics.html#show-method"><span class="toc-section-number">15.4.3</span> Show method</a></li>
+<li><a href="15-4-s4-generics.html#accessors"><span class="toc-section-number">15.4.4</span> Accessors</a></li>
+<li><a href="15-4-s4-generics.html#exercises-49"><span class="toc-section-number">15.4.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="15-5-s4-dispatch.html#s4-dispatch"><span class="toc-section-number">15.5</span> Method dispatch</a><ul>
+<li><a href="15-5-s4-dispatch.html#single-dispatch"><span class="toc-section-number">15.5.1</span> Single dispatch</a></li>
+<li><a href="15-5-s4-dispatch.html#multiple-inheritance"><span class="toc-section-number">15.5.2</span> Multiple inheritance</a></li>
+<li><a href="15-5-s4-dispatch.html#multiple-dispatch"><span class="toc-section-number">15.5.3</span> Multiple dispatch</a></li>
+<li><a href="15-5-s4-dispatch.html#multiple-dispatch-and-multiple-inheritance"><span class="toc-section-number">15.5.4</span> Multiple dispatch and multiple inheritance</a></li>
+<li><a href="15-5-s4-dispatch.html#exercises-50"><span class="toc-section-number">15.5.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="15-6-s4-s3.html#s4-s3"><span class="toc-section-number">15.6</span> S4 and S3</a><ul>
+<li><a href="15-6-s4-s3.html#classes"><span class="toc-section-number">15.6.1</span> Classes</a></li>
+<li><a href="15-6-s4-s3.html#generics"><span class="toc-section-number">15.6.2</span> Generics</a></li>
+<li><a href="15-6-s4-s3.html#exercises-51"><span class="toc-section-number">15.6.3</span> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="16-oo-tradeoffs.html#oo-tradeoffs"><span class="toc-section-number">16</span> Trade-offs</a><ul>
+<li class="has-sub"><a href="16-1-introduction-15.html#introduction-15"><span class="toc-section-number">16.1</span> Introduction</a><ul>
+<li><a href="16-1-introduction-15.html#outline-14">Outline</a></li>
+<li><a href="16-1-introduction-15.html#prerequisites-9">Prerequisites</a></li>
+</ul></li>
+<li><a href="16-2-s3-s4.html#s3-s4"><span class="toc-section-number">16.2</span> S4 versus S3</a></li>
+<li class="has-sub"><a href="16-3-s3-r6.html#s3-r6"><span class="toc-section-number">16.3</span> R6 versus S3</a><ul>
+<li><a href="16-3-s3-r6.html#namespacing"><span class="toc-section-number">16.3.1</span> Namespacing</a></li>
+<li><a href="16-3-s3-r6.html#threading-state"><span class="toc-section-number">16.3.2</span> Threading state</a></li>
+<li><a href="16-3-s3-r6.html#tradeoffs-pipe"><span class="toc-section-number">16.3.3</span> Method chaining</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Metaprogramming</b></span></li>
+<li><a href="metaprogramming.html#metaprogramming">Introduction</a></li>
+<li class="has-sub"><a href="17-meta-big-picture.html#meta-big-picture"><span class="toc-section-number">17</span> Big picture</a><ul>
+<li class="has-sub"><a href="17-1-introduction-16.html#introduction-16"><span class="toc-section-number">17.1</span> Introduction</a><ul>
+<li><a href="17-1-introduction-16.html#outline-15">Outline</a></li>
+<li><a href="17-1-introduction-16.html#prerequisites-10">Prerequisites</a></li>
+</ul></li>
+<li><a href="17-2-code-data.html#code-data"><span class="toc-section-number">17.2</span> Code is data</a></li>
+<li><a href="17-3-code-tree.html#code-tree"><span class="toc-section-number">17.3</span> Code is a tree</a></li>
+<li><a href="17-4-coding-code.html#coding-code"><span class="toc-section-number">17.4</span> Code can generate code</a></li>
+<li><a href="17-5-eval-intro.html#eval-intro"><span class="toc-section-number">17.5</span> Evaluation runs code</a></li>
+<li><a href="17-6-eval-funs.html#eval-funs"><span class="toc-section-number">17.6</span> Customising evaluation with functions</a></li>
+<li><a href="17-7-eval-data.html#eval-data"><span class="toc-section-number">17.7</span> Customising evaluation with data</a></li>
+<li><a href="17-8-quosure-intro.html#quosure-intro"><span class="toc-section-number">17.8</span> Quosures</a></li>
+</ul></li>
+<li class="has-sub"><a href="18-expressions.html#expressions"><span class="toc-section-number">18</span> Expressions</a><ul>
+<li class="has-sub"><a href="18-1-introduction-17.html#introduction-17"><span class="toc-section-number">18.1</span> Introduction</a><ul>
+<li><a href="18-1-introduction-17.html#outline-16">Outline</a></li>
+<li><a href="18-1-introduction-17.html#prerequisites-11">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="18-2-ast.html#ast"><span class="toc-section-number">18.2</span> Abstract syntax trees</a><ul>
+<li><a href="18-2-ast.html#drawing"><span class="toc-section-number">18.2.1</span> Drawing</a></li>
+<li><a href="18-2-ast.html#non-code-components"><span class="toc-section-number">18.2.2</span> Non-code components</a></li>
+<li><a href="18-2-ast.html#infix-calls"><span class="toc-section-number">18.2.3</span> Infix calls</a></li>
+<li><a href="18-2-ast.html#exercises-52"><span class="toc-section-number">18.2.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="18-3-expression-details.html#expression-details"><span class="toc-section-number">18.3</span> Expressions</a><ul>
+<li><a href="18-3-expression-details.html#constants"><span class="toc-section-number">18.3.1</span> Constants</a></li>
+<li><a href="18-3-expression-details.html#symbols"><span class="toc-section-number">18.3.2</span> Symbols</a></li>
+<li><a href="18-3-expression-details.html#calls"><span class="toc-section-number">18.3.3</span> Calls</a></li>
+<li><a href="18-3-expression-details.html#summary"><span class="toc-section-number">18.3.4</span> Summary</a></li>
+<li><a href="18-3-expression-details.html#exercises-53"><span class="toc-section-number">18.3.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="18-4-grammar.html#grammar"><span class="toc-section-number">18.4</span> Parsing and grammar</a><ul>
+<li><a href="18-4-grammar.html#operator-precedence"><span class="toc-section-number">18.4.1</span> Operator precedence</a></li>
+<li><a href="18-4-grammar.html#associativity"><span class="toc-section-number">18.4.2</span> Associativity</a></li>
+<li><a href="18-4-grammar.html#parsing"><span class="toc-section-number">18.4.3</span> Parsing and deparsing</a></li>
+<li><a href="18-4-grammar.html#exercises-54"><span class="toc-section-number">18.4.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="18-5-ast-funs.html#ast-funs"><span class="toc-section-number">18.5</span> Walking AST with recursive functions</a><ul>
+<li><a href="18-5-ast-funs.html#finding-f-and-t"><span class="toc-section-number">18.5.1</span> Finding F and T</a></li>
+<li><a href="18-5-ast-funs.html#finding-all-variables-created-by-assignment"><span class="toc-section-number">18.5.2</span> Finding all variables created by assignment</a></li>
+<li><a href="18-5-ast-funs.html#exercises-55"><span class="toc-section-number">18.5.3</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="18-6-expression-special.html#expression-special"><span class="toc-section-number">18.6</span> Specialised data structures</a><ul>
+<li><a href="18-6-expression-special.html#pairlists"><span class="toc-section-number">18.6.1</span> Pairlists</a></li>
+<li><a href="18-6-expression-special.html#empty-symbol"><span class="toc-section-number">18.6.2</span> Missing arguments</a></li>
+<li><a href="18-6-expression-special.html#expression-vectors"><span class="toc-section-number">18.6.3</span> Expression vectors</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="19-quasiquotation.html#quasiquotation"><span class="toc-section-number">19</span> Quasiquotation</a><ul>
+<li class="has-sub"><a href="19-1-introduction-18.html#introduction-18"><span class="toc-section-number">19.1</span> Introduction</a><ul>
+<li><a href="19-1-introduction-18.html#outline-17">Outline</a></li>
+<li><a href="19-1-introduction-18.html#prerequisites-12">Prerequisites</a></li>
+<li><a href="19-1-introduction-18.html#related-work">Related work</a></li>
+</ul></li>
+<li class="has-sub"><a href="19-2-quasi-motivation.html#quasi-motivation"><span class="toc-section-number">19.2</span> Motivation</a><ul>
+<li><a href="19-2-quasi-motivation.html#vocabulary"><span class="toc-section-number">19.2.1</span> Vocabulary</a></li>
+<li><a href="19-2-quasi-motivation.html#exercises-56"><span class="toc-section-number">19.2.2</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="19-3-quoting.html#quoting"><span class="toc-section-number">19.3</span> Quoting</a><ul>
+<li><a href="19-3-quoting.html#capturing-expressions"><span class="toc-section-number">19.3.1</span> Capturing expressions</a></li>
+<li><a href="19-3-quoting.html#capturing-symbols"><span class="toc-section-number">19.3.2</span> Capturing symbols</a></li>
+<li><a href="19-3-quoting.html#with-base-r"><span class="toc-section-number">19.3.3</span> With base R</a></li>
+<li><a href="19-3-quoting.html#substitution"><span class="toc-section-number">19.3.4</span> Substitution</a></li>
+<li><a href="19-3-quoting.html#summary-1"><span class="toc-section-number">19.3.5</span> Summary</a></li>
+<li><a href="19-3-quoting.html#exercises-57"><span class="toc-section-number">19.3.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="19-4-unquoting.html#unquoting"><span class="toc-section-number">19.4</span> Unquoting</a><ul>
+<li><a href="19-4-unquoting.html#unquoting-one-argument"><span class="toc-section-number">19.4.1</span> Unquoting one argument</a></li>
+<li><a href="19-4-unquoting.html#unquoting-a-function"><span class="toc-section-number">19.4.2</span> Unquoting a function</a></li>
+<li><a href="19-4-unquoting.html#unquote-missing"><span class="toc-section-number">19.4.3</span> Unquoting a missing argument</a></li>
+<li><a href="19-4-unquoting.html#unquoting-in-special-forms"><span class="toc-section-number">19.4.4</span> Unquoting in special forms</a></li>
+<li><a href="19-4-unquoting.html#unquoting-many-arguments"><span class="toc-section-number">19.4.5</span> Unquoting many arguments</a></li>
+<li><a href="19-4-unquoting.html#the-polite-fiction-of"><span class="toc-section-number">19.4.6</span> The polite fiction of <code>!!</code></a></li>
+<li><a href="19-4-unquoting.html#non-standard-ast"><span class="toc-section-number">19.4.7</span> Non-standard ASTs</a></li>
+<li><a href="19-4-unquoting.html#exercises-58"><span class="toc-section-number">19.4.8</span> Exercises</a></li>
+</ul></li>
+<li><a href="19-5-base-nonquote.html#base-nonquote"><span class="toc-section-number">19.5</span> Non-quoting</a></li>
+<li class="has-sub"><a href="19-6-tidy-dots.html#tidy-dots"><span class="toc-section-number">19.6</span> <code>...</code> (dot-dot-dot)</a><ul>
+<li><a href="19-6-tidy-dots.html#examples"><span class="toc-section-number">19.6.1</span> Examples</a></li>
+<li><a href="19-6-tidy-dots.html#exec"><span class="toc-section-number">19.6.2</span> <code>exec()</code></a></li>
+<li><a href="19-6-tidy-dots.html#dots_list"><span class="toc-section-number">19.6.3</span> <code>dots_list()</code></a></li>
+<li><a href="19-6-tidy-dots.html#do-call"><span class="toc-section-number">19.6.4</span> With base R</a></li>
+<li><a href="19-6-tidy-dots.html#exercises-59"><span class="toc-section-number">19.6.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="19-7-expr-case-studies.html#expr-case-studies"><span class="toc-section-number">19.7</span> Case studies</a><ul>
+<li><a href="19-7-expr-case-studies.html#lobstrast"><span class="toc-section-number">19.7.1</span> <code>lobstr::ast()</code></a></li>
+<li><a href="19-7-expr-case-studies.html#map-reduce-to-generate-code"><span class="toc-section-number">19.7.2</span> Map-reduce to generate code</a></li>
+<li><a href="19-7-expr-case-studies.html#slicing-an-array"><span class="toc-section-number">19.7.3</span> Slicing an array</a></li>
+<li><a href="19-7-expr-case-studies.html#new-function"><span class="toc-section-number">19.7.4</span> Creating functions</a></li>
+<li><a href="19-7-expr-case-studies.html#exercises-60"><span class="toc-section-number">19.7.5</span> Exercises</a></li>
+</ul></li>
+<li><a href="19-8-history.html#history"><span class="toc-section-number">19.8</span> History</a></li>
+</ul></li>
+<li class="has-sub"><a href="20-evaluation.html#evaluation"><span class="toc-section-number">20</span> Evaluation</a><ul>
+<li class="has-sub"><a href="20-1-introduction-19.html#introduction-19"><span class="toc-section-number">20.1</span> Introduction</a><ul>
+<li><a href="20-1-introduction-19.html#outline-18">Outline</a></li>
+<li><a href="20-1-introduction-19.html#prerequisites-13">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="20-2-eval.html#eval"><span class="toc-section-number">20.2</span> Evaluation basics</a><ul>
+<li><a href="20-2-eval.html#application-local"><span class="toc-section-number">20.2.1</span> Application: <code>local()</code></a></li>
+<li><a href="20-2-eval.html#application-source"><span class="toc-section-number">20.2.2</span> Application: <code>source()</code></a></li>
+<li><a href="20-2-eval.html#gotcha-function"><span class="toc-section-number">20.2.3</span> Gotcha: <code>function()</code></a></li>
+<li><a href="20-2-eval.html#exercises-61"><span class="toc-section-number">20.2.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="20-3-quosures.html#quosures"><span class="toc-section-number">20.3</span> Quosures</a><ul>
+<li><a href="20-3-quosures.html#creating"><span class="toc-section-number">20.3.1</span> Creating</a></li>
+<li><a href="20-3-quosures.html#evaluating"><span class="toc-section-number">20.3.2</span> Evaluating</a></li>
+<li><a href="20-3-quosures.html#quosure-dots"><span class="toc-section-number">20.3.3</span> Dots</a></li>
+<li><a href="20-3-quosures.html#quosure-impl"><span class="toc-section-number">20.3.4</span> Under the hood</a></li>
+<li><a href="20-3-quosures.html#nested-quosures"><span class="toc-section-number">20.3.5</span> Nested quosures</a></li>
+<li><a href="20-3-quosures.html#exercises-62"><span class="toc-section-number">20.3.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="20-4-data-masks.html#data-masks"><span class="toc-section-number">20.4</span> Data masks</a><ul>
+<li><a href="20-4-data-masks.html#basics-3"><span class="toc-section-number">20.4.1</span> Basics</a></li>
+<li><a href="20-4-data-masks.html#pronouns"><span class="toc-section-number">20.4.2</span> Pronouns</a></li>
+<li><a href="20-4-data-masks.html#subset"><span class="toc-section-number">20.4.3</span> Application: <code>subset()</code></a></li>
+<li><a href="20-4-data-masks.html#application-transform"><span class="toc-section-number">20.4.4</span> Application: transform</a></li>
+<li><a href="20-4-data-masks.html#select"><span class="toc-section-number">20.4.5</span> Application: <code>select()</code></a></li>
+<li><a href="20-4-data-masks.html#exercises-63"><span class="toc-section-number">20.4.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="20-5-tidy-evaluation.html#tidy-evaluation"><span class="toc-section-number">20.5</span> Using tidy evaluation</a><ul>
+<li><a href="20-5-tidy-evaluation.html#quoting-and-unquoting"><span class="toc-section-number">20.5.1</span> Quoting and unquoting</a></li>
+<li><a href="20-5-tidy-evaluation.html#handling-ambiguity"><span class="toc-section-number">20.5.2</span> Handling ambiguity</a></li>
+<li><a href="20-5-tidy-evaluation.html#quoting-and-ambiguity"><span class="toc-section-number">20.5.3</span> Quoting and ambiguity</a></li>
+<li><a href="20-5-tidy-evaluation.html#exercises-64"><span class="toc-section-number">20.5.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="20-6-base-evaluation.html#base-evaluation"><span class="toc-section-number">20.6</span> Base evaluation</a><ul>
+<li><a href="20-6-base-evaluation.html#substitute"><span class="toc-section-number">20.6.1</span> <code>substitute()</code></a></li>
+<li><a href="20-6-base-evaluation.html#match.call"><span class="toc-section-number">20.6.2</span> <code>match.call()</code></a></li>
+<li><a href="20-6-base-evaluation.html#exercises-65"><span class="toc-section-number">20.6.3</span> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="21-translation.html#translation"><span class="toc-section-number">21</span> Translating R code</a><ul>
+<li class="has-sub"><a href="21-1-introduction-20.html#introduction-20"><span class="toc-section-number">21.1</span> Introduction</a><ul>
+<li><a href="21-1-introduction-20.html#outline-19">Outline</a></li>
+<li><a href="21-1-introduction-20.html#prerequisites-14">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="21-2-html.html#html"><span class="toc-section-number">21.2</span> HTML</a><ul>
+<li><a href="21-2-html.html#goal"><span class="toc-section-number">21.2.1</span> Goal</a></li>
+<li><a href="21-2-html.html#escaping"><span class="toc-section-number">21.2.2</span> Escaping</a></li>
+<li><a href="21-2-html.html#basic-tag-functions"><span class="toc-section-number">21.2.3</span> Basic tag functions</a></li>
+<li><a href="21-2-html.html#tag-functions"><span class="toc-section-number">21.2.4</span> Tag functions</a></li>
+<li><a href="21-2-html.html#html-env"><span class="toc-section-number">21.2.5</span> Processing all tags</a></li>
+<li><a href="21-2-html.html#exercises-66"><span class="toc-section-number">21.2.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="21-3-latex.html#latex"><span class="toc-section-number">21.3</span> LaTeX</a><ul>
+<li><a href="21-3-latex.html#latex-mathematics"><span class="toc-section-number">21.3.1</span> LaTeX mathematics</a></li>
+<li><a href="21-3-latex.html#goal-1"><span class="toc-section-number">21.3.2</span> Goal</a></li>
+<li><a href="21-3-latex.html#to_math"><span class="toc-section-number">21.3.3</span> <code>to_math</code>()</a></li>
+<li><a href="21-3-latex.html#known-symbols"><span class="toc-section-number">21.3.4</span> Known symbols</a></li>
+<li><a href="21-3-latex.html#unknown-symbols"><span class="toc-section-number">21.3.5</span> Unknown symbols</a></li>
+<li><a href="21-3-latex.html#known-functions"><span class="toc-section-number">21.3.6</span> Known functions</a></li>
+<li><a href="21-3-latex.html#unknown-functions"><span class="toc-section-number">21.3.7</span> Unknown functions</a></li>
+<li><a href="21-3-latex.html#exercises-67"><span class="toc-section-number">21.3.8</span> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>V Techniques</b></span></li>
+<li><a href="techniques.html#techniques">Introduction</a></li>
+<li class="has-sub"><a href="22-debugging.html#debugging"><span class="toc-section-number">22</span> Debugging</a><ul>
+<li class="has-sub"><a href="22-1-introduction-21.html#introduction-21"><span class="toc-section-number">22.1</span> Introduction</a><ul>
+<li><a href="22-1-introduction-21.html#outline-20">Outline</a></li>
+</ul></li>
+<li><a href="22-2-debugging-strategy.html#debugging-strategy"><span class="toc-section-number">22.2</span> Overall approach</a></li>
+<li class="has-sub"><a href="22-3-traceback.html#traceback"><span class="toc-section-number">22.3</span> Locating errors</a><ul>
+<li><a href="22-3-traceback.html#debug-lazy"><span class="toc-section-number">22.3.1</span> Lazy evaluation</a></li>
+</ul></li>
+<li class="has-sub"><a href="22-4-browser.html#browser"><span class="toc-section-number">22.4</span> Interactive debugger</a><ul>
+<li><a href="22-4-browser.html#browser-commands"><span class="toc-section-number">22.4.1</span> <code>browser()</code> commands</a></li>
+<li><a href="22-4-browser.html#alternatives"><span class="toc-section-number">22.4.2</span> Alternatives</a></li>
+<li><a href="22-4-browser.html#debug-compiled"><span class="toc-section-number">22.4.3</span> Compiled code</a></li>
+</ul></li>
+<li class="has-sub"><a href="22-5-non-interactive-debugging.html#non-interactive-debugging"><span class="toc-section-number">22.5</span> Non-interactive debugging</a><ul>
+<li><a href="22-5-non-interactive-debugging.html#dump.frames"><span class="toc-section-number">22.5.1</span> <code>dump.frames()</code></a></li>
+<li><a href="22-5-non-interactive-debugging.html#print-debugging"><span class="toc-section-number">22.5.2</span> Print debugging</a></li>
+<li><a href="22-5-non-interactive-debugging.html#rmarkdown"><span class="toc-section-number">22.5.3</span> RMarkdown</a></li>
+</ul></li>
+<li><a href="22-6-non-error-failures.html#non-error-failures"><span class="toc-section-number">22.6</span> Non-error failures</a></li>
+</ul></li>
+<li class="has-sub"><a href="23-perf-measure.html#perf-measure"><span class="toc-section-number">23</span> Measuring performance</a><ul>
+<li class="has-sub"><a href="23-1-introduction-22.html#introduction-22"><span class="toc-section-number">23.1</span> Introduction</a><ul>
+<li><a href="23-1-introduction-22.html#outline-21">Outline</a></li>
+<li><a href="23-1-introduction-22.html#prerequisites-15">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="23-2-profiling.html#profiling"><span class="toc-section-number">23.2</span> Profiling</a><ul>
+<li><a href="23-2-profiling.html#visualising-profiles"><span class="toc-section-number">23.2.1</span> Visualising profiles</a></li>
+<li><a href="23-2-profiling.html#memory-profiling"><span class="toc-section-number">23.2.2</span> Memory profiling</a></li>
+<li><a href="23-2-profiling.html#limitations"><span class="toc-section-number">23.2.3</span> Limitations</a></li>
+<li><a href="23-2-profiling.html#exercises-68"><span class="toc-section-number">23.2.4</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="23-3-microbenchmarking.html#microbenchmarking"><span class="toc-section-number">23.3</span> Microbenchmarking</a><ul>
+<li><a href="23-3-microbenchmarking.html#benchmark-results"><span class="toc-section-number">23.3.1</span> <code>bench::mark()</code> results</a></li>
+<li><a href="23-3-microbenchmarking.html#interpreting-results"><span class="toc-section-number">23.3.2</span> Interpreting results</a></li>
+<li><a href="23-3-microbenchmarking.html#exercises-69"><span class="toc-section-number">23.3.3</span> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="24-perf-improve.html#perf-improve"><span class="toc-section-number">24</span> Improving performance</a><ul>
+<li class="has-sub"><a href="24-1-introduction-23.html#introduction-23"><span class="toc-section-number">24.1</span> Introduction</a><ul>
+<li><a href="24-1-introduction-23.html#outline-22">Outline</a></li>
+<li><a href="24-1-introduction-23.html#prerequisites-16">Prerequisites</a></li>
+</ul></li>
+<li><a href="24-2-code-organisation.html#code-organisation"><span class="toc-section-number">24.2</span> Code organisation</a></li>
+<li class="has-sub"><a href="24-3-already-solved.html#already-solved"><span class="toc-section-number">24.3</span> Checking for existing solutions</a><ul>
+<li><a href="24-3-already-solved.html#exercises-70"><span class="toc-section-number">24.3.1</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="24-4-be-lazy.html#be-lazy"><span class="toc-section-number">24.4</span> Doing as little as possible</a><ul>
+<li><a href="24-4-be-lazy.html#mean"><span class="toc-section-number">24.4.1</span> <code>mean()</code></a></li>
+<li><a href="24-4-be-lazy.html#as.data.frame"><span class="toc-section-number">24.4.2</span> <code>as.data.frame()</code></a></li>
+<li><a href="24-4-be-lazy.html#exercises-71"><span class="toc-section-number">24.4.3</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="24-5-vectorise.html#vectorise"><span class="toc-section-number">24.5</span> Vectorise</a><ul>
+<li><a href="24-5-vectorise.html#exercises-72"><span class="toc-section-number">24.5.1</span> Exercises</a></li>
+</ul></li>
+<li><a href="24-6-avoid-copies.html#avoid-copies"><span class="toc-section-number">24.6</span> Avoiding copies</a></li>
+<li><a href="24-7-t-test.html#t-test"><span class="toc-section-number">24.7</span> Case study: t-test</a></li>
+<li><a href="24-8-more-techniques.html#more-techniques"><span class="toc-section-number">24.8</span> Other techniques</a></li>
+</ul></li>
+<li class="has-sub"><a href="25-rcpp.html#rcpp"><span class="toc-section-number">25</span> Rewriting R code in C++</a><ul>
+<li class="has-sub"><a href="25-1-introduction-24.html#introduction-24"><span class="toc-section-number">25.1</span> Introduction</a><ul>
+<li><a href="25-1-introduction-24.html#outline-23">Outline</a></li>
+<li><a href="25-1-introduction-24.html#prerequisites-17">Prerequisites</a></li>
+</ul></li>
+<li class="has-sub"><a href="25-2-rcpp-intro.html#rcpp-intro"><span class="toc-section-number">25.2</span> Getting started with C++</a><ul>
+<li><a href="25-2-rcpp-intro.html#no-inputs-scalar-output"><span class="toc-section-number">25.2.1</span> No inputs, scalar output</a></li>
+<li><a href="25-2-rcpp-intro.html#scalar-input-scalar-output"><span class="toc-section-number">25.2.2</span> Scalar input, scalar output</a></li>
+<li><a href="25-2-rcpp-intro.html#vector-input-scalar-output"><span class="toc-section-number">25.2.3</span> Vector input, scalar output</a></li>
+<li><a href="25-2-rcpp-intro.html#vector-input-vector-output"><span class="toc-section-number">25.2.4</span> Vector input, vector output</a></li>
+<li><a href="25-2-rcpp-intro.html#sourceCpp"><span class="toc-section-number">25.2.5</span> Using sourceCpp</a></li>
+<li><a href="25-2-rcpp-intro.html#exercise-started"><span class="toc-section-number">25.2.6</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="25-3-rcpp-classes.html#rcpp-classes"><span class="toc-section-number">25.3</span> Other classes</a><ul>
+<li><a href="25-3-rcpp-classes.html#lists-and-data-frames"><span class="toc-section-number">25.3.1</span> Lists and data frames</a></li>
+<li><a href="25-3-rcpp-classes.html#functions-rcpp"><span class="toc-section-number">25.3.2</span> Functions</a></li>
+<li><a href="25-3-rcpp-classes.html#attributes-1"><span class="toc-section-number">25.3.3</span> Attributes</a></li>
+</ul></li>
+<li class="has-sub"><a href="25-4-rcpp-na.html#rcpp-na"><span class="toc-section-number">25.4</span> Missing values</a><ul>
+<li><a href="25-4-rcpp-na.html#scalars-1"><span class="toc-section-number">25.4.1</span> Scalars</a></li>
+<li><a href="25-4-rcpp-na.html#strings"><span class="toc-section-number">25.4.2</span> Strings</a></li>
+<li><a href="25-4-rcpp-na.html#boolean"><span class="toc-section-number">25.4.3</span> Boolean</a></li>
+<li><a href="25-4-rcpp-na.html#vectors-rcpp"><span class="toc-section-number">25.4.4</span> Vectors</a></li>
+<li><a href="25-4-rcpp-na.html#exercises-73"><span class="toc-section-number">25.4.5</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="25-5-stl.html#stl"><span class="toc-section-number">25.5</span> Standard Template Library</a><ul>
+<li><a href="25-5-stl.html#using-iterators"><span class="toc-section-number">25.5.1</span> Using iterators</a></li>
+<li><a href="25-5-stl.html#algorithms"><span class="toc-section-number">25.5.2</span> Algorithms</a></li>
+<li><a href="25-5-stl.html#data-structures-rcpp"><span class="toc-section-number">25.5.3</span> Data structures</a></li>
+<li><a href="25-5-stl.html#vectors-stl"><span class="toc-section-number">25.5.4</span> Vectors</a></li>
+<li><a href="25-5-stl.html#sets"><span class="toc-section-number">25.5.5</span> Sets</a></li>
+<li><a href="25-5-stl.html#map-1"><span class="toc-section-number">25.5.6</span> Map</a></li>
+<li><a href="25-5-stl.html#exercises-74"><span class="toc-section-number">25.5.7</span> Exercises</a></li>
+</ul></li>
+<li class="has-sub"><a href="25-6-rcpp-case-studies.html#rcpp-case-studies"><span class="toc-section-number">25.6</span> Case studies</a><ul>
+<li><a href="25-6-rcpp-case-studies.html#gibbs-sampler"><span class="toc-section-number">25.6.1</span> Gibbs sampler</a></li>
+<li><a href="25-6-rcpp-case-studies.html#r-vectorisation-versus-c-vectorisation"><span class="toc-section-number">25.6.2</span> R vectorisation versus C++ vectorisation</a></li>
+</ul></li>
+<li><a href="25-7-rcpp-package.html#rcpp-package"><span class="toc-section-number">25.7</span> Using Rcpp in a package</a></li>
+<li><a href="25-8-rcpp-more.html#rcpp-more"><span class="toc-section-number">25.8</span> Learning more</a></li>
+<li><a href="25-9-acknowledgments.html#acknowledgments"><span class="toc-section-number">25.9</span> Acknowledgments</a></li>
+</ul></li>
+<li><a href="references.html#references">References</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="header">
+<h1 class="title">Advanced R</h1>
+<h4 class="author"><em>Hadley Wickham</em></h4>
+</div>
+<div id="welcome" class="section level1 unnumbered">
+<h1>Welcome</h1>
+<p><a href="https://amzn.to/2WoabjB"><img src="cover.png" width="250" height="366" align="right" alt="Cover image" /></a></p>
+<p>This is the website for 2nd edition of <strong>“<a href="https://amzn.to/2WoabjB">Advanced R</a>”</strong>, a book in Chapman &amp; Hall’s R Series. The book is designed primarily for R users who want to improve their programming skills and understanding of the language. It should also be useful for programmers coming to R from other languages, as help you to understand why R works the way it does.</p>
+<p>If you’re looking for the electronic version of the 1st edition, you can find it online at <a href="http://adv-r.had.co.nz/" class="uri">http://adv-r.had.co.nz/</a>.</p>
+</div>
+<p style="text-align: center;">
+<a href="license.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>
