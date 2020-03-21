@@ -1,3 +1,3 @@
 #### Introduction 
-###### README.Rmd--problems and solutions
+###### README.Rmd--problems(errors) and solutions
 ###### index.html--the result of compilation
