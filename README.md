@@ -1,7 +1,10 @@
-#### Introduction 
-###### README.Rmd--problems(errors) and solutions
-###### index.html--the result of compilation
-Problems and solutions
+## Introduction 
+#### README.Rmd--problems(errors) and solutions
+#### index.html--the result of compilation
+
+
+
+####Problems and solutions
 
 During the building process, the followings are the errors I've met and how I solved them.
 
