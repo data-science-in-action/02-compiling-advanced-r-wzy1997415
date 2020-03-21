@@ -11,7 +11,9 @@ During the building process, the followings are the errors I've met and how I so
 #### **1、Use devtools install sloop and emo**
 
 **（1）**`install.packages("sessioninfo")`.
+
 **（2）**Install R Package dependencies using `devtools::install_github("hadley/sloop")` and `devtools::install_github("hadley/emo")`. 
+
 **（3）**Use`bookdown::render_book("index.Rmd", output_format = "bookdown::pdf_book")` to compile the book.
 
 
