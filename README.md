@@ -8,17 +8,17 @@
 
 During the building process, the followings are the errors I've met and how I solved them.
 
-#### **1、Use devtools install sloop and emo**
+#### 1、Use devtools install sloop and emo
 
-**（1）**`install.packages("sessioninfo")`.
+（1）`install.packages("sessioninfo")`.
 
-**（2）**Install R Package dependencies using `devtools::install_github("hadley/sloop")` and `devtools::install_github("hadley/emo")`. 
+（2）Install R Package dependencies using `devtools::install_github("hadley/sloop")` and `devtools::install_github("hadley/emo")`. 
 
-**（3）**Use`bookdown::render_book("index.Rmd", output_format = "bookdown::pdf_book")` to compile the book.
+（3）Use`bookdown::render_book("index.Rmd", output_format = "bookdown::pdf_book")` to compile the book.
 
 
 
-#### **2、Lacking packages**
+#### 2、Lacking packages
 
 **(1)Introduction.Rmd**
 
@@ -66,7 +66,7 @@ In summary, I installed the following packages, named desc,sessioninfo,lobstr,te
 
 
 
-#### **3、Introduction.Rmd**
+#### 3、Introduction.Rmd
 
 **Error** in cat(paste0(contributors$desc, collapse = ", "))
 
@@ -75,17 +75,17 @@ The full command is: `contributors <- read.csv("contributors.csv", stringsAsFact
 
 
 
-#### **4、Rcpp.Rmd**
+#### 4、Rcpp.Rmd
 In this session, a working C++ compiler is needed. To get it: On Windows, install Rtools.The installation tutorial can refer to this website<https://blog.csdn.net/wzgl__wh/article/details/70185687>
 
 
 
-#### **5、"xelatex" not Found**
+#### 5、"xelatex" not Found
 
 Use *tinytex* to install *TinyTex* might can't solve the problem, so I used *MiKTeX* instead.
 
 
 
-#### **6、Package fontspec Error: The font "Inconsolata" and "Andale Mono" cannot be found.**
+#### 6、Package fontspec Error: The font "Inconsolata" and "Andale Mono" cannot be found.
 
 Download the *Inconsolata* font and *Andale Mono* font, and place them in the C:/Windows/Fonts folder.
